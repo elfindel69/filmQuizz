@@ -10,4 +10,6 @@
     <string name="question_reservoir_dogs">Reservoir dogs is a film directed by Quentin Tarantino</string>
     <string name="question_citizen_kane">Citizen Kane is a film directed by Luc Besson</string>
     <string name="end">This is the end</string>
+    <string name="reset">Reset</string>
+    <string name="ceiling_cat">ceiling cat</string>
 </resources>
