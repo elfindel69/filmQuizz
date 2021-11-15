@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.hb.filmquizz.pojos.Question;
@@ -19,15 +20,17 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "QuizzActivity";
     private static final String KEY_INDEX = "index";
     private static final String KEY_SCORE = "score";
+    private static final String KEY_RESET = "reset";
 
     private final List<Question> questions = new ArrayList<>();
     private TextView tvQuestion;
     private TextView tvScore;
     private Button btnTrue;
     private Button btnFalse;
-    private int idx = 0, score = 0;
+    private int idx = 0, score = 0, btnResetState = View.INVISIBLE;
     private Question question;
     private Button btnReset;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,26 +54,40 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             idx = savedInstanceState.getInt(KEY_INDEX);
             score = savedInstanceState.getInt(KEY_SCORE);
+            btnResetState = savedInstanceState.getInt(KEY_RESET);
+            btnReset.setVisibility(btnResetState);
+        }
+        if(idx<questions.size()){
+            question = questions.get(idx);
+            tvQuestion.setText(question.getText());
+        }else{
+            tvQuestion.setText(getString(R.string.end));
+            question = questions.get(0);
         }
 
-        question = questions.get(idx);
-        if (idx == 0) {
-            tvQuestion.setText(question.getText());
-            tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
-        }
+        tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
+
 
         btnTrue.setOnClickListener(v -> checkAnswer(true));
         btnFalse.setOnClickListener(v -> checkAnswer(false));
-
+        btnReset.setOnClickListener(v -> {
+            score = 0;
+            idx = 0;
+            tvQuestion.setText(questions.get(idx).getText());
+            btnTrue.setVisibility(View.VISIBLE);
+            btnFalse.setVisibility(View.VISIBLE);
+            tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
+            btnReset.setVisibility(View.INVISIBLE);
+        });
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState() called");
         outState.putInt(KEY_INDEX, idx);
         outState.putInt(KEY_SCORE,score);
-
+        outState.putInt(KEY_RESET,btnResetState);
     }
 
     @Override
@@ -127,20 +144,14 @@ public class MainActivity extends AppCompatActivity {
         if (idx < questions.size()) {
             question = questions.get(idx);
             tvQuestion.setText(question.getText());
+
         } else {
             tvQuestion.setText(getString(R.string.end));
             btnTrue.setVisibility(View.INVISIBLE);
             btnFalse.setVisibility(View.INVISIBLE);
             btnReset.setVisibility(View.VISIBLE);
-            btnReset.setOnClickListener(v -> {
-                score = 0;
-                idx = 0;
-                tvQuestion.setText(questions.get(idx).getText());
-                btnTrue.setVisibility(View.VISIBLE);
-                btnFalse.setVisibility(View.VISIBLE);
-                tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
-                btnReset.setVisibility(View.INVISIBLE);
-            });
+            btnResetState = View.VISIBLE;
+
         }
         tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
 
