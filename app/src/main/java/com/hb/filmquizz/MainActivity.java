@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
             question = questions.get(idx);
             tvQuestion.setText(question.getText());
         }else{
-            tvQuestion.setText(getString(R.string.end));
-            question = questions.get(0);
+            ending();
         }
 
         tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
@@ -146,14 +145,18 @@ public class MainActivity extends AppCompatActivity {
             tvQuestion.setText(question.getText());
 
         } else {
-            tvQuestion.setText(getString(R.string.end));
-            btnTrue.setVisibility(View.INVISIBLE);
-            btnFalse.setVisibility(View.INVISIBLE);
-            btnReset.setVisibility(View.VISIBLE);
-            btnResetState = View.VISIBLE;
+            ending();
 
         }
         tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
 
+    }
+
+    private void ending() {
+        tvQuestion.setText(getString(R.string.end));
+        btnTrue.setVisibility(View.INVISIBLE);
+        btnFalse.setVisibility(View.INVISIBLE);
+        btnReset.setVisibility(View.VISIBLE);
+        btnResetState = View.VISIBLE;
     }
 }
