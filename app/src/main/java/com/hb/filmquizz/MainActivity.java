@@ -12,9 +12,10 @@ import com.hb.filmquizz.pojos.Question;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private final List<Question> questions = new ArrayList<Question>();
+    private final List<Question> questions = new ArrayList<>();
     private TextView tvQuestion;
     private TextView tvScore;
     private Button btnTrue;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         question = questions.get(cpt);
         if (cpt == 0) {
             tvQuestion.setText(question.getText());
-            tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
+            tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
         }
         btnTrue.setOnClickListener(v -> checkAnswer(true));
 
@@ -80,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 tvQuestion.setText(questions.get(cpt).getText());
                 btnTrue.setVisibility(View.VISIBLE);
                 btnFalse.setVisibility(View.VISIBLE);
-                tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
+                tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
                 btnReset.setVisibility(View.INVISIBLE);
             });
         }
-        tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
+        tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
 
     }
 }
