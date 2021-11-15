@@ -45,19 +45,9 @@ public class MainActivity extends AppCompatActivity {
             tvQuestion.setText(question.getText());
             tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
         }
-        btnTrue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkAnswer(true);
-            }
-        });
+        btnTrue.setOnClickListener(v -> checkAnswer(true));
 
-        btnFalse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkAnswer(false);
-            }
-        });
+        btnFalse.setOnClickListener(v -> checkAnswer(false));
 
     }
 
@@ -84,17 +74,14 @@ public class MainActivity extends AppCompatActivity {
             btnTrue.setVisibility(View.INVISIBLE);
             btnFalse.setVisibility(View.INVISIBLE);
             btnReset.setVisibility(View.VISIBLE);
-            btnReset.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    score = 0;
-                    cpt = 0;
-                    tvQuestion.setText(questions.get(cpt).getText());
-                    btnTrue.setVisibility(View.VISIBLE);
-                    btnFalse.setVisibility(View.VISIBLE);
-                    tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
-                    btnReset.setVisibility(View.INVISIBLE);
-                }
+            btnReset.setOnClickListener(v -> {
+                score = 0;
+                cpt = 0;
+                tvQuestion.setText(questions.get(cpt).getText());
+                btnTrue.setVisibility(View.VISIBLE);
+                btnFalse.setVisibility(View.VISIBLE);
+                tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
+                btnReset.setVisibility(View.INVISIBLE);
             });
         }
         tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
