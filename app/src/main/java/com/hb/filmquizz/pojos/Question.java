@@ -1,12 +1,12 @@
 package com.hb.filmquizz.pojos;
 
 public class Question {
-    private static int sID=0;
+    private static int sID = 0;
     private int id;
     private String text;
     private boolean answer;
 
-    public Question(){
+    public Question() {
 
     }
 
@@ -24,20 +24,20 @@ public class Question {
         return id;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public boolean isAnswer() {
-        return answer;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
+    public String getText() {
+        return text;
+    }
+
     public void setText(String text) {
         this.text = text;
+    }
+
+    public boolean isAnswer() {
+        return answer;
     }
 
     public void setAnswer(boolean answer) {
