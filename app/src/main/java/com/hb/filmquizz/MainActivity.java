@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "QuizzActivity";
     private static final String KEY_INDEX = "index";
     private static final String KEY_SCORE = "score";
+
     private static final String KEY_BTN_RESTART = "reset";
     private static final String KEY_BTN_TRUE = "btnTrue";
     private static final String KEY_BTN_FALSE = "btnFalse";
@@ -29,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvScore;
     private Button btnTrue;
     private Button btnFalse;
-    private int idx = 0, score = 0, btnResetState = View.INVISIBLE, btnTrueState = View.VISIBLE,
-    btnFalseState  = View.INVISIBLE;
+    private int idx = 0;
+    private int score = 0;
     private Question question;
     private Button btnReset;
 
@@ -58,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
             idx = savedInstanceState.getInt(KEY_INDEX);
             score = savedInstanceState.getInt(KEY_SCORE);
 
-            btnResetState = savedInstanceState.getInt(KEY_BTN_RESTART);
+            int btnResetState = savedInstanceState.getInt(KEY_BTN_RESTART);
             btnReset.setVisibility(btnResetState);
 
-            btnTrueState = savedInstanceState.getInt(KEY_BTN_TRUE);
+            int btnTrueState = savedInstanceState.getInt(KEY_BTN_TRUE);
             btnTrue.setVisibility(btnTrueState);
 
-            btnFalseState = savedInstanceState.getInt(KEY_BTN_FALSE);
+           int btnFalseState = savedInstanceState.getInt(KEY_BTN_FALSE);
             btnFalse.setVisibility(btnFalseState);
 
         }
