@@ -20,14 +20,17 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "QuizzActivity";
     private static final String KEY_INDEX = "index";
     private static final String KEY_SCORE = "score";
-    private static final String KEY_RESET = "reset";
+    private static final String KEY_BTN_RESTART = "reset";
+    private static final String KEY_BTN_TRUE = "btnTrue";
+    private static final String KEY_BTN_FALSE = "btnFalse";
 
     private final List<Question> questions = new ArrayList<>();
     private TextView tvQuestion;
     private TextView tvScore;
     private Button btnTrue;
     private Button btnFalse;
-    private int idx = 0, score = 0, btnResetState = View.INVISIBLE;
+    private int idx = 0, score = 0, btnResetState = View.INVISIBLE, btnTrueState = View.VISIBLE,
+    btnFalseState  = View.INVISIBLE;
     private Question question;
     private Button btnReset;
 
@@ -54,14 +57,20 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             idx = savedInstanceState.getInt(KEY_INDEX);
             score = savedInstanceState.getInt(KEY_SCORE);
-            btnResetState = savedInstanceState.getInt(KEY_RESET);
+            btnResetState = savedInstanceState.getInt(KEY_BTN_RESTART);
             btnReset.setVisibility(btnResetState);
+            btnTrueState = savedInstanceState.getInt(KEY_BTN_TRUE);
+            btnTrue.setVisibility(btnTrueState);
+            btnFalseState = savedInstanceState.getInt(KEY_BTN_FALSE);
+            btnFalse.setVisibility(btnFalseState);
+
         }
         if(idx<questions.size()){
             question = questions.get(idx);
             tvQuestion.setText(question.getText());
         }else{
-            ending();
+            tvQuestion.setText(getString(R.string.end));
+            question = questions.get(0);
         }
 
         tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
@@ -86,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onSaveInstanceState() called");
         outState.putInt(KEY_INDEX, idx);
         outState.putInt(KEY_SCORE,score);
-        outState.putInt(KEY_RESET,btnResetState);
+        outState.putInt(KEY_BTN_RESTART,btnResetState);
+        outState.putInt(KEY_BTN_TRUE,btnTrueState);
+        outState.putInt(KEY_BTN_FALSE,btnFalseState);
     }
 
     @Override
@@ -145,18 +156,20 @@ public class MainActivity extends AppCompatActivity {
             tvQuestion.setText(question.getText());
 
         } else {
-            ending();
+            extracted();
 
         }
         tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
 
     }
 
-    private void ending() {
+    private void extracted() {
         tvQuestion.setText(getString(R.string.end));
         btnTrue.setVisibility(View.INVISIBLE);
         btnFalse.setVisibility(View.INVISIBLE);
         btnReset.setVisibility(View.VISIBLE);
+        btnTrueState = View.INVISIBLE;
+        btnFalseState = View.INVISIBLE;
         btnResetState = View.VISIBLE;
     }
 }
