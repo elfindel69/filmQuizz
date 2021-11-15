@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FilmQuizz">
         <activity
+            android:name=".CheatActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

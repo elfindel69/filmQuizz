@@ -1,7 +1,11 @@
 package com.hb.filmquizz;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_BTN_RESTART = "reset";
     private static final String KEY_BTN_TRUE = "btnTrue";
     private static final String KEY_BTN_FALSE = "btnFalse";
+    public static final String KEY_QUESTION = "question";
 
     private final List<Question> questions = new ArrayList<>();
     private TextView tvQuestion;
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private int score = 0;
     private Question question;
     private Button btnReset;
-
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.d(TAG,"onCreate() called");
+
+        context = getApplicationContext();
 
         tvQuestion = findViewById(R.id.tvQuestion);
         tvScore = findViewById(R.id.tvScore);
@@ -99,9 +106,27 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onSaveInstanceState() called");
         outState.putInt(KEY_INDEX, idx);
         outState.putInt(KEY_SCORE,score);
+
         outState.putInt(KEY_BTN_RESTART,btnReset.getVisibility());
         outState.putInt(KEY_BTN_TRUE,btnTrue.getVisibility());
         outState.putInt(KEY_BTN_FALSE,btnFalse.getVisibility());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.cheat) {
+            Intent intent = new Intent(context, CheatActivity.class);
+            intent.putExtra(KEY_QUESTION,question);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -144,13 +169,13 @@ public class MainActivity extends AppCompatActivity {
         Toast toast;
         question = questions.get(idx);
         if (answer == question.isAnswer()) {
-            toast = Toast.makeText(getApplicationContext(), "CORRECT", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, "CORRECT", Toast.LENGTH_SHORT);
             if (idx < questions.size()) {
                 ++score;
             }
 
         } else {
-            toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, "INCORRECT", Toast.LENGTH_SHORT);
         }
         toast.show();
         idx++;
@@ -172,5 +197,6 @@ public class MainActivity extends AppCompatActivity {
         btnTrue.setVisibility(View.INVISIBLE);
         btnFalse.setVisibility(View.INVISIBLE);
         btnReset.setVisibility(View.VISIBLE);
+        question = questions.get(0);
     }
 }
