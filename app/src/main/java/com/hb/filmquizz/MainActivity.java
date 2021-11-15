@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private final List<Question> listeQuestions = new ArrayList<Question>();
+    private final List<Question> questions = new ArrayList<Question>();
     private TextView tvQuestion;
     private TextView tvScore;
     private Button btnTrue;
@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
         btnFalse = findViewById(R.id.btnFalse);
         btnReset = findViewById(R.id.btnReset);
 
-        listeQuestions.add(new Question(getString(R.string.question_ai), true));
-        listeQuestions.add(new Question(getString(R.string.question_taxi_driver), true));
-        listeQuestions.add(new Question(getString(R.string.question_2001), false));
-        listeQuestions.add(new Question(getString(R.string.question_reservoir_dogs), true));
-        listeQuestions.add(new Question(getString(R.string.question_citizen_kane), false));
+        questions.add(new Question(getString(R.string.question_ai), true));
+        questions.add(new Question(getString(R.string.question_taxi_driver), true));
+        questions.add(new Question(getString(R.string.question_2001), false));
+        questions.add(new Question(getString(R.string.question_reservoir_dogs), true));
+        questions.add(new Question(getString(R.string.question_citizen_kane), false));
 
-        question = listeQuestions.get(cpt);
+        question = questions.get(cpt);
         if (cpt == 0) {
             tvQuestion.setText(question.getText());
             tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkAnswer(boolean answer) {
         Toast toast;
-        question = listeQuestions.get(cpt);
+        question = questions.get(cpt);
         if (answer == question.isAnswer()) {
             toast = Toast.makeText(getApplicationContext(), "CORRECT", Toast.LENGTH_SHORT);
-            if (cpt < listeQuestions.size()) {
+            if (cpt < questions.size()) {
                 ++score;
             }
 
@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
         cpt++;
 
-        if (cpt < listeQuestions.size()) {
-            question = listeQuestions.get(cpt);
+        if (cpt < questions.size()) {
+            question = questions.get(cpt);
             tvQuestion.setText(question.getText());
         } else {
             tvQuestion.setText(getString(R.string.end));
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     score = 0;
                     cpt = 0;
-                    tvQuestion.setText(listeQuestions.get(cpt).getText());
+                    tvQuestion.setText(questions.get(cpt).getText());
                     btnTrue.setVisibility(View.VISIBLE);
                     btnFalse.setVisibility(View.VISIBLE);
                     tvScore.setText(String.format("%s: %d", getString(R.string.score), score));
