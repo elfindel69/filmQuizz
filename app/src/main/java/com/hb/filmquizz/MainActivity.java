@@ -1,6 +1,7 @@
 package com.hb.filmquizz;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,20 +16,26 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "QuizzActivity";
+    private static final String KEY_INDEX = "index";
+    private static final String KEY_SCORE = "score";
+
     private final List<Question> questions = new ArrayList<>();
     private TextView tvQuestion;
     private TextView tvScore;
     private Button btnTrue;
     private Button btnFalse;
-    private int cpt = 0, score = 0;
+    private int idx = 0, score = 0;
     private Question question;
     private Button btnReset;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d(TAG,"onCreate() called");
+
         tvQuestion = findViewById(R.id.tvQuestion);
         tvScore = findViewById(R.id.tvScore);
         btnTrue = findViewById(R.id.btnTrue);
@@ -41,23 +48,73 @@ public class MainActivity extends AppCompatActivity {
         questions.add(new Question(getString(R.string.question_reservoir_dogs), true));
         questions.add(new Question(getString(R.string.question_citizen_kane), false));
 
-        question = questions.get(cpt);
-        if (cpt == 0) {
+        if(savedInstanceState != null){
+            idx = savedInstanceState.getInt(KEY_INDEX);
+            score = savedInstanceState.getInt(KEY_SCORE);
+        }
+
+        question = questions.get(idx);
+        if (idx == 0) {
             tvQuestion.setText(question.getText());
             tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
         }
-        btnTrue.setOnClickListener(v -> checkAnswer(true));
 
+        btnTrue.setOnClickListener(v -> checkAnswer(true));
         btnFalse.setOnClickListener(v -> checkAnswer(false));
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState() called");
+        outState.putInt(KEY_INDEX, idx);
+        outState.putInt(KEY_SCORE,score);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart() called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
+    }
+
     public void checkAnswer(boolean answer) {
         Toast toast;
-        question = questions.get(cpt);
+        question = questions.get(idx);
         if (answer == question.isAnswer()) {
             toast = Toast.makeText(getApplicationContext(), "CORRECT", Toast.LENGTH_SHORT);
-            if (cpt < questions.size()) {
+            if (idx < questions.size()) {
                 ++score;
             }
 
@@ -65,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
             toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
         }
         toast.show();
-        cpt++;
+        idx++;
 
-        if (cpt < questions.size()) {
-            question = questions.get(cpt);
+        if (idx < questions.size()) {
+            question = questions.get(idx);
             tvQuestion.setText(question.getText());
         } else {
             tvQuestion.setText(getString(R.string.end));
@@ -77,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
             btnReset.setVisibility(View.VISIBLE);
             btnReset.setOnClickListener(v -> {
                 score = 0;
-                cpt = 0;
-                tvQuestion.setText(questions.get(cpt).getText());
+                idx = 0;
+                tvQuestion.setText(questions.get(idx).getText());
                 btnTrue.setVisibility(View.VISIBLE);
                 btnFalse.setVisibility(View.VISIBLE);
                 tvScore.setText(String.format(Locale.FRANCE,"%s: %d", getString(R.string.score), score));
