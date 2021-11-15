@@ -57,10 +57,13 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             idx = savedInstanceState.getInt(KEY_INDEX);
             score = savedInstanceState.getInt(KEY_SCORE);
+
             btnResetState = savedInstanceState.getInt(KEY_BTN_RESTART);
             btnReset.setVisibility(btnResetState);
+
             btnTrueState = savedInstanceState.getInt(KEY_BTN_TRUE);
             btnTrue.setVisibility(btnTrueState);
+
             btnFalseState = savedInstanceState.getInt(KEY_BTN_FALSE);
             btnFalse.setVisibility(btnFalseState);
 
@@ -95,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onSaveInstanceState() called");
         outState.putInt(KEY_INDEX, idx);
         outState.putInt(KEY_SCORE,score);
-        outState.putInt(KEY_BTN_RESTART,btnResetState);
-        outState.putInt(KEY_BTN_TRUE,btnTrueState);
-        outState.putInt(KEY_BTN_FALSE,btnFalseState);
+        outState.putInt(KEY_BTN_RESTART,btnReset.getVisibility());
+        outState.putInt(KEY_BTN_TRUE,btnTrue.getVisibility());
+        outState.putInt(KEY_BTN_FALSE,btnFalse.getVisibility());
     }
 
     @Override
@@ -168,8 +171,5 @@ public class MainActivity extends AppCompatActivity {
         btnTrue.setVisibility(View.INVISIBLE);
         btnFalse.setVisibility(View.INVISIBLE);
         btnReset.setVisibility(View.VISIBLE);
-        btnTrueState = View.INVISIBLE;
-        btnFalseState = View.INVISIBLE;
-        btnResetState = View.VISIBLE;
     }
 }
